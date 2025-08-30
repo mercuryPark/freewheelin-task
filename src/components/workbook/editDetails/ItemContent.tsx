@@ -13,11 +13,13 @@ const ItemContent = ({
     index,
     active,
     onChangeProblem,
+    deleteProblem,
 }: {
     item: Problem;
     index: number;
     active: boolean;
     onChangeProblem: (problemId: string) => void;
+    deleteProblem: (problemId: string) => void;
 }) => {
     return (
         <div
@@ -47,7 +49,10 @@ const ItemContent = ({
                         <Icon type={active ? "addCircleActive" : "addCircle"} />
                         유사문제
                     </button>
-                    <button className='flex items-center gap-1'>
+                    <button
+                        className='flex items-center gap-1 cursor-pointer'
+                        onClick={() => deleteProblem(item.id)}
+                    >
                         <Icon type='trash' />
                         삭제
                     </button>

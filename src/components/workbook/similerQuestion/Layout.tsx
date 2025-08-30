@@ -5,7 +5,15 @@ import { Problem } from "../types";
 import ItemContent from "./ItemContent";
 import VirtualScroller from "@/components/common/VirtualScroller";
 
-const SimilerQuestionLayout = ({ problems }: { problems: Problem[] }) => {
+const SimilerQuestionLayout = ({
+    problems,
+    addProblem,
+    replaceProblem,
+}: {
+    problems: Problem[];
+    addProblem: (sp_id: string) => void;
+    replaceProblem: (sp_id: string) => void;
+}) => {
     // 선택된 문제 없음
     if (!problems || problems.length === 0) {
         return (
@@ -30,9 +38,14 @@ const SimilerQuestionLayout = ({ problems }: { problems: Problem[] }) => {
             {/* 문제 리스트 */}
             <VirtualScroller
                 data={problems || []}
-                className='flex flex-col gap-2 flex-1 min-h-0 mb-4'
+                className='flex flex-col gap-3 flex-1 min-h-0 mb-4'
                 itemContent={(problem: Problem, index: number) => (
-                    <ItemContent item={problem} index={index} />
+                    <ItemContent
+                        item={problem}
+                        index={index}
+                        addProblem={addProblem}
+                        replaceProblem={replaceProblem}
+                    />
                 )}
             />
         </div>

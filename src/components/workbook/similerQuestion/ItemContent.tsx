@@ -5,9 +5,19 @@ import { Problem } from "../types";
 import Image from "@/components/common/Image";
 import Icon from "@/components/common/Icon";
 
-const ItemContent = ({ item, index }: { item: Problem; index: number }) => {
+const ItemContent = ({
+    item,
+    index,
+    addProblem,
+    replaceProblem,
+}: {
+    item: Problem;
+    index: number;
+    addProblem: (sp_id: string) => void;
+    replaceProblem: (sp_id: string) => void;
+}) => {
     return (
-        <div className='bg-white rounded-[12px]'>
+        <div className='bg-white rounded-[12px] shadow-md'>
             {/* 문제의 header 영역 */}
             <header className='flex items-center justify-between bg-[#FAFAFA]  px-6 py-3 rounded-[12px]'>
                 <div className='flex items-center gap-6 truncate'>
@@ -19,11 +29,17 @@ const ItemContent = ({ item, index }: { item: Problem; index: number }) => {
 
                 {/* buttons */}
                 <div className='flex flex-none items-center gap-2 text-[12px] text-[#959595]'>
-                    <button className='flex items-center gap-1'>
+                    <button
+                        className='flex items-center gap-1 cursor-pointer'
+                        onClick={() => replaceProblem(item.id)}
+                    >
                         <Icon type='swapHorizon' />
                         교체
                     </button>
-                    <button className='flex items-center gap-1'>
+                    <button
+                        className='flex items-center gap-1 cursor-pointer'
+                        onClick={() => addProblem(item.id)}
+                    >
                         <Icon type='addCircle' />
                         추가
                     </button>

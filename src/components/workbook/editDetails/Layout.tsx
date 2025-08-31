@@ -35,7 +35,7 @@ const EditDetailsLayout = ({
                 </h1>
 
                 {/* empty */}
-                {problems && problems.length === 0 ? (
+                {!problems || problems.length === 0 ? (
                     <div className='text-white text-[14px] font-[400] flex flex-col items-center justify-center flex-1'>
                         <p className='text-center'>
                             학습지 문제수가 없습니다. <br /> 다음단계로 넘어가기

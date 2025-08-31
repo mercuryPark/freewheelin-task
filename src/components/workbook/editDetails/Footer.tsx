@@ -17,7 +17,7 @@ const EditDetailsFooter = ({
     return (
         <div className='flex gap-1 justify-end items-center text-[16px]  '>
             <p className='text-[#c0c0c0] font-[400] mr-1'> {summary?.levels}</p>
-            <p className='text-[#c0c0c0] font-[400] pb-0.5'> | </p>
+            <p className='text-[#c0c0c0] font-[400]'> | </p>
             <h1 className='text-white font-[700]'>
                 문제 수 {summary?.count}개
             </h1>

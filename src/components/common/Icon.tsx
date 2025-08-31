@@ -2,7 +2,7 @@ import Image from "next/image";
 import { cn } from "@/utils/cn";
 
 // * icons
-import * as icons from "@/components/icon";
+import * as icons from "@/icon";
 
 // 아이콘 타입을 자동으로 생성
 type IconType = keyof typeof icons;

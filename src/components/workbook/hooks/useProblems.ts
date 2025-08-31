@@ -26,7 +26,10 @@ const useProblems = () => {
     const [summary, setSummary] = useState<{
         levels: string;
         count: number;
-    } | null>(null);
+    }>({
+        levels: "",
+        count: 0,
+    });
 
     // 문제 리스트 조회
     const { data: problems } = useQuery({

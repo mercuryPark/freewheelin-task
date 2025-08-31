@@ -17,8 +17,6 @@ npm run dev
 # 빌드
 npm run build
 
-# 프로덕션 실행
-npm run dev
 ```
 
 ### 환경 변수
@@ -67,15 +65,16 @@ npm test -- --coverage
 
 ```
 src/
-├── components/                    # React 컴포넌트
-│   ├── common/                   # 공통 컴포넌트
+├── components/                  # 컴포넌트
+│   ├── common/                  # 공통 컴포넌트
 │   │   ├── Image.tsx            # 이미지 컴포넌트 (에러 처리 포함)
 │   │   ├── Icon.tsx             # 아이콘 컴포넌트 (자동 타입 생성)
 │   │   └── VirtualScroller.tsx  # 가상 스크롤링 컴포넌트
 │   │
 │   └── workbook/                # 학습지 관련 컴포넌트
 │       ├── common/              # workbook 공통 컴포넌트
-│       │   └── ItemContent.tsx  # 문제 아이템 컴포넌트
+│       │   ├── ItemContent.tsx  # 문제 아이템 컴포넌트
+│       │   └── LevelBadge.tsx   # 문제 레벨 Badge UI 컴포넌트
 │       │
 │       ├── editDetails/         # 문제 상세 편집
 │       │   ├── Layout.tsx       # 편집 레이아웃
@@ -111,7 +110,7 @@ src/
 
 ### 🎯 기술적 특징
 
--   **성능 최적화**: React Query + 가상 스크롤링 (특정갯수 이상일 경우)
+-   **성능 최적화**: React Query + 가상 스크롤링 (특정갯수 이상일 경우 렌더링 속도개선을 위해 사용했습니다.)
 -   **테스트**: Jest + React Testing Library
 -   **아키텍처**: 관심사 분리 및 재사용 가능한 컴포넌트
 

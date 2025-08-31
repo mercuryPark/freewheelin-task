@@ -22,6 +22,7 @@ const useProblems = () => {
     // 요청용 id
     const [fetchTargetId, setFetchTargetId] = useState<string | null>(null);
 
+    // 문제리스트 요약
     const [summary, setSummary] = useState<{
         levels: string;
         count: number;
@@ -41,12 +42,14 @@ const useProblems = () => {
         queryKey: ["similarProblems", fetchTargetId],
         queryFn: ({ queryKey }: { queryKey: (string | null)[] }) =>
             API_GET_SIMILAR_PROBLEMS(queryKey[1] as string, {
+                // * 선택되지 않은(active 상태가 아닌) 문제들은 유사문제 API 조회시 제외
+                // ! But active상태인 문제를 포함시킬경우 중복된 문제가 리스트에 추가되는 경우가 생겨 포함시키지 않음
                 excludedProblemIds: problems
                     ?.map((problem: Problem) => problem.id)
-                    .filter((id: string) => id !== selectedProblemId)
+                    // .filter((id: string) => id !== selectedProblemId)
                     .join(","),
             }),
-        enabled: !!fetchTargetId, // selectedProblemId가 truthy일 때만 실행
+        enabled: !!fetchTargetId,
         retry: false,
         refetchOnWindowFocus: false, // focus 시 요청 비활성화
         placeholderData: (previousData) => previousData, // 이전 데이터 유지
@@ -73,7 +76,7 @@ const useProblems = () => {
 
         // 유사문제리스트에서 제거
         queryClient.setQueryData(
-            ["similarProblems", selectedProblemId],
+            ["similarProblems", fetchTargetId],
             (prev: Problem[]) => {
                 return _.filter(
                     prev,
@@ -122,6 +125,8 @@ const useProblems = () => {
                 });
             }
         );
+
+        // 선택된 문제 id 변경
         setSelectedProblemId(sProblemId);
 
         // active된 문제를 유사문제로 교체
@@ -169,18 +174,13 @@ const useProblems = () => {
         // 레벨 순서대로 문자열 만들기
         const levelOrder = [1, 2, 3, 4, 5];
         const levels = levelOrder
+            .filter((lvl) => grouped[lvl] > 0)
             .map(
                 (lvl) =>
-                    `${levelMap[lvl as keyof typeof levelMap]}${
-                        grouped[lvl] ?? 0
-                    }`
+                    `${levelMap[lvl as keyof typeof levelMap]}${grouped[lvl]}`
             )
             .join(" · ");
 
-        console.log({
-            levels: levels,
-            count: problems?.length ?? 0,
-        });
         setSummary({
             levels: levels,
             count: problems?.length ?? 0,

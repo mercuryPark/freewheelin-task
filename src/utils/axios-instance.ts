@@ -17,13 +17,11 @@ const axiosClient = axios.create(defaultOptions);
 
 // 요청
 axiosClient.interceptors.request.use((config) => {
-    // // HttpOnly 쿠키에서 토큰을 가져옴
+    // HttpOnly 쿠키에서 토큰을 가져옴
     // const token = localStorage.getItem("access_token");
-    // // HTTP 요청에 Authorization 헤더에 토큰을 포함시킴
+    // HTTP 요청에 Authorization 헤더에 토큰을 포함시킴
     // if (token) {
     //     config.headers.Authorization = `Bearer ${token}`;
-    //     // } else {
-    //     //   window.location.href = '/login'
     // }
 
     return config;
@@ -38,7 +36,6 @@ axiosClient.interceptors.response.use(
         const result = error.response;
 
         let errMessage = "";
-        // window.location.href = "/";
 
         if (
             result === undefined ||

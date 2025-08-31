@@ -4,7 +4,11 @@ import { Problem } from "../types";
 // * components
 import VirtualScroller from "@/components/common/VirtualScroller";
 import EditDetailsFooter from "./Footer";
-import ItemContent from "./ItemContent";
+import ItemContent from "@/components/workbook/common/ItemContent";
+import Icon from "@/components/common/Icon";
+
+// * utils
+import { cn } from "@/utils/cn";
 
 const EditDetailsLayout = ({
     summary,
@@ -23,12 +27,14 @@ const EditDetailsLayout = ({
     deleteProblem: (problemId: string) => void;
 }) => {
     return (
-        <div className='w-[712px] h-full bg-[#5C5C5C] rounded-[12px] p-4 flex flex-col justify-between overflow-hidden'>
+        <div className='min-w-[300px] xl:w-[712px] lg:max-xl:w-full h-full bg-[#5C5C5C] rounded-[12px] p-4 flex flex-col justify-between overflow-hidden'>
             <div className='flex-1 flex flex-col min-h-0'>
+                {/* title */}
                 <h1 className='text-white text-[16px] font-[700] mb-4 flex-shrink-0'>
                     학습지 상세 편집
                 </h1>
 
+                {/* empty */}
                 {problems && problems.length === 0 ? (
                     <div className='text-white text-[14px] font-[400] flex flex-col items-center justify-center flex-1'>
                         <p className='text-center'>
@@ -44,15 +50,47 @@ const EditDetailsLayout = ({
                         itemContent={(problem: Problem, index: number) => (
                             <ItemContent
                                 item={problem}
-                                index={index}
+                                number={index}
                                 active={selectedId === problem.id}
-                                onChangeProblem={onChangeProblem}
-                                deleteProblem={deleteProblem}
+                                buttons={
+                                    <div className='flex flex-none items-center gap-3 text-[12px] text-[#959595]'>
+                                        <button
+                                            className={cn(
+                                                selectedId === problem.id &&
+                                                    "text-[#00ABFF]",
+                                                "flex items-center gap-1 cursor-pointer"
+                                            )}
+                                            onClick={() =>
+                                                onChangeProblem(problem.id)
+                                            }
+                                        >
+                                            <Icon
+                                                type={
+                                                    selectedId === problem.id
+                                                        ? "addCircleActive"
+                                                        : "addCircle"
+                                                }
+                                            />
+                                            유사문제
+                                        </button>
+                                        <button
+                                            className='flex items-center gap-1 cursor-pointer'
+                                            onClick={() =>
+                                                deleteProblem(problem.id)
+                                            }
+                                        >
+                                            <Icon type='trash' />
+                                            삭제
+                                        </button>
+                                    </div>
+                                }
                             />
                         )}
                     />
                 )}
             </div>
+
+            {/* 문제 리스트 요약 */}
             <EditDetailsFooter summary={summary} />
         </div>
     );

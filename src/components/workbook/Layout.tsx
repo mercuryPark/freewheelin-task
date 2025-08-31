@@ -6,6 +6,7 @@ import SimilerQuestionLayout from "./similerQuestion/Layout";
 import useProblems from "./hooks/useProblems";
 
 const WorkBookLayout = () => {
+    // 문제 관련 상태 및 액션
     const { state, actions } = useProblems();
 
     return (

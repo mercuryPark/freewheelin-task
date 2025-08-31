@@ -1,23 +1,23 @@
+// * basic
 import React, { useState, useCallback } from "react";
 import NextImage, { ImageProps as NextImageProps } from "next/image";
-import { cn } from "@/utils/cn";
 
 // * types
 interface ImageProps extends Omit<NextImageProps, "onError"> {
-    fallbackSrc?: string; // 기본 이미지 경로
+    fallbackSrc?: string | null; // 기본 이미지 경로
     fallbackComponent?: React.ReactNode; // 기본 이미지 컴포넌트
     onError?: (error: string) => void; // 에러 핸들러
     showFallbackOnError?: boolean; // 에러 시 기본 이미지 표시 여부
 }
 
-// * component
 const Image = ({
     src,
     alt,
-    fallbackSrc = "/images/default-image.png", // 기본 이미지 경로
+    fallbackSrc = null as string | null, // 기본 이미지 경로
     fallbackComponent,
     onError,
-    showFallbackOnError = true,
+    // 보여줄 기본이미지가 있으면 true, 없으면 false
+    showFallbackOnError = false,
     className,
     style,
     ...props
@@ -45,39 +45,23 @@ const Image = ({
 
     // 에러 상태이고 기본 이미지 경로가 있는 경우
     if (isError && showFallbackOnError && fallbackSrc) {
-        return (
-            <NextImage
-                src={fallbackSrc}
-                alt={`${alt} (기본 이미지)`}
-                className={className}
-                style={style}
-                onError={() => {
-                    // 기본 이미지도 로드 실패 시 빈 div 반환
-                    console.warn(
-                        `Fallback image also failed to load: ${fallbackSrc}`
-                    );
-                }}
-                {...props}
-            />
-        );
+        <NextImage
+            src={fallbackSrc}
+            alt={`${alt} (기본 이미지)`}
+            className={className}
+            style={style}
+            onError={() => {}}
+            {...props}
+        />;
     }
 
     // 에러 상태이고 기본 이미지가 없는 경우
     if (isError && !showFallbackOnError) {
         return (
-            <div
-                className={className}
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "#f5f5f5",
-                    color: "#999",
-                    fontSize: "14px",
-                    ...style,
-                }}
-            >
-                이미지를 불러올 수 없습니다
+            <div className='h-64 w-full flex items-center justify-center ring-1 ring-[#eeeeee] shadow-md rounded-[4px]'>
+                <h1 className='text-[#999] text-[12px] font-[400]'>
+                    이미지를 불러오지 못했습니다.
+                </h1>
             </div>
         );
     }
@@ -87,6 +71,8 @@ const Image = ({
         <NextImage
             src={src}
             alt={alt}
+            quality={100}
+            unoptimized={true} // Next.js 최적화 비활성화 (원본 화질)
             className={className}
             style={style}
             onError={handleError}

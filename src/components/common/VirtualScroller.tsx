@@ -73,7 +73,12 @@ const VirtualScroller = <T,>({
     const renderVirtualList = () => (
         <Virtuoso
             data={data}
-            itemContent={(index, item) => itemContent(item, index)}
+            itemContent={(index, item) => (
+                <div className='mb-3'>
+                    {/* gap 대신 margin 사용 */}
+                    {itemContent(item, index)}
+                </div>
+            )}
             totalCount={data.length}
             overscan={overscan}
             onScroll={(e) => {
@@ -85,6 +90,7 @@ const VirtualScroller = <T,>({
             className={className}
             style={{
                 height,
+
                 ...style,
             }}
         />

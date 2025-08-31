@@ -71,7 +71,7 @@ const Image = ({
         <NextImage
             src={src}
             alt={alt}
-            quality={100}
+            // quality={100}
             unoptimized={true} // Next.js 최적화 비활성화 (원본 화질)
             className={className}
             style={style}
